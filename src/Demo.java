@@ -14,7 +14,7 @@ public class Demo {
         CopyFile cf = new CopyFile();
         if (f.exists() && f.isFile()) {
             System.out.println("==================");
-            cf.copyFile2(f);
+            cf.copyFile(f);
         }
     }
 }

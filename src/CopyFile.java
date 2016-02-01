@@ -6,67 +6,31 @@ import java.io.*;
 public class CopyFile {
 
     public void copyFile(File f) {
-        String path = f.getPath();
-        if (path.lastIndexOf(".") > 0) {
-            String fileName;
-            String extension;
 
-            int pos = path.lastIndexOf(".");
-
-            fileName = path.substring(0, pos);
-            extension = path.substring(pos, path.length());
-
-
-            File newFile = new File(fileName + "Copy" + extension);
-            if (!newFile.exists()) {
-                try {
-                    newFile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
-
-    public void copyFile2(File f) {
-
-        FileInputStream fis;
-        FileOutputStream fos;
-        StringBuilder sb = new StringBuilder();
-        String fileContent;
-        String path = f.getPath();
-        String fileName;
-        String extension;
-        int pos = path.lastIndexOf(".");
-        fileName = path.substring(0, pos);
-        extension = path.substring(pos, path.length());
+        int bufferSize = 256;
+        BufferedReader bufferedInputStream = null;
+        BufferedWriter bufferedOutputStream = null;
+        File newFile = new File(f.getPath() + "Copy");
 
         try {
-            fis = new FileInputStream(f);
-            if (fis != null) {
-                int readByte;
-                while ((readByte = fis.read()) != -1) {
-                    sb.append((char) readByte);
-                }
-
-                fis.close();
-
-                fileContent = sb.toString();
-                byte buff[] = fileContent.getBytes();
-                fos = new FileOutputStream(fileName + "Copy" + extension);
-                for(int i = 0; i < buff.length; i++) {
-                    fos.write(buff[i]);
-                }
-
-                fos.close();
-
+            newFile.createNewFile();
+            bufferedInputStream = new BufferedReader(new FileReader(f.getPath()), bufferSize);
+            bufferedOutputStream = new BufferedWriter(new FileWriter(newFile));
+            int c;
+            while ((c = bufferedInputStream.read()) != -1) {
+                bufferedOutputStream.write(c);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            if (bufferedInputStream != null) {
+                bufferedInputStream.close();
+            }
+            if (bufferedOutputStream != null) {
+                bufferedOutputStream.close();
+                bufferedOutputStream.flush();
+            }
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
