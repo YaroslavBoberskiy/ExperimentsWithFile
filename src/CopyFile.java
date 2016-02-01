@@ -1,8 +1,5 @@
 import java.io.*;
 
-/**
- * Created by YB on 29.01.2016.
- */
 public class CopyFile {
 
     public void copyFile(File f) {
@@ -34,3 +31,4 @@ public class CopyFile {
         }
     }
 }
+
